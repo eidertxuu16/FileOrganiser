@@ -1,15 +1,19 @@
 {
-    "manifest_version": 2,
-    "name": "Download Organizer",
-    "version": "1.0",
-    "description": "Automatically organizes your downloads into folders based on file type and source website.",
-    "permissions": ["downloads", "notifications"],
-    "background": {
-      "scripts": ["background.js"],
-      "persistent": false
-    },
-    "icons": {
-      "128": "icon.png"
+  "manifest_version": 3,
+  "name": "Download Organizer",
+  "description": "Automatically organize your downloads into folders.",
+  "version": "1.0",
+  "permissions": ["downloads", "storage", "tabs"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
     }
-  }
-  
+  ]
+}
