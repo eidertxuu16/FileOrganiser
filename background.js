@@ -31,16 +31,15 @@ function getFolder(downloadItem) {
 }
 
 // Listen for new downloads
-browser.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
+chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
     let folderName = getFolder(downloadItem);
     let newPath = `${folderName}/${downloadItem.filename}`;
 
     suggest({ filename: newPath });
 
     // Show a notification when the file is saved
-    browser.notifications.create({
+    chrome.notifications.create({
         "type": "basic",
-        "iconUrl": "icon.png",
         "title": "Download Organized",
         "message": `File saved in ${folderName}!`
     });

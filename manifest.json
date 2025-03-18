@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Download Organizer",
   "description": "Automatically organize your downloads into folders.",
-  "version": "1.0",
+  "version": "1.0.2",
   "permissions": ["downloads", "storage", "tabs"],
   "background": {
     "service_worker": "background.js"
