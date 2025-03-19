@@ -2,18 +2,16 @@
   "manifest_version": 3,
   "name": "Download Organizer",
   "description": "Automatically organize your downloads into folders.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "permissions": [
     "downloads",
-    "storage",
-    "tabs",
     "notifications"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "host_permissions": [
-    "http://*/*",
-    "https://*/*"
+      "http://*/*",
+      "https://*/*"
   ]
 }

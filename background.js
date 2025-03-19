@@ -1,3 +1,8 @@
+// Log whenever a download is created
+chrome.downloads.onCreated.addListener((downloadItem) => {
+    console.log("Download Created:", downloadItem);
+});
+
 // Function to extract the domain name without TLD
 function getDomainName(hostname) {
     let parts = hostname.split('.');
@@ -6,8 +11,15 @@ function getDomainName(hostname) {
 
 // Function to determine folder based on file type and source
 function getFolder(downloadItem) {
-    let url = new URL(downloadItem.finalUrl);
+    // Log the finalUrl and url to the console for debugging
+    console.log('finalUrl:', downloadItem.finalUrl);
+    console.log('url:', downloadItem.url);
+
+    let url = new URL(downloadItem.finalUrl || downloadItem.url);  // Make sure the URL is parsed correctly
+    console.log('Parsed URL:', url);  // Debugging line to check the URL being parsed
+    
     let domain = getDomainName(url.hostname); // Extract clean domain name
+    console.log('Extracted Domain:', domain);  // Debugging line to check the extracted domain
 
     let fileType = downloadItem.filename.split('.').pop().toLowerCase();
     let folder = "Misc"; // Default folder
@@ -30,17 +42,20 @@ function getFolder(downloadItem) {
     return folder;
 }
 
-// Listen for new downloads
+// Listen for downloads and organize files accordingly
 chrome.downloads.onDeterminingFilename.addListener((downloadItem, suggest) => {
-    let folderName = getFolder(downloadItem);
-    let newPath = `${folderName}/${downloadItem.filename}`;
+    console.log("onDeterminingFilename triggered");
+    let folderName = getFolder(downloadItem);  // Get the folder based on the file type and domain
+    let newPath = `${folderName}/${downloadItem.filename}`;  // Set new path with folder and filename
 
     suggest({ filename: newPath });
 
     // Show a notification when the file is saved
-    chrome.notifications.create({
+    chrome.notifications.create('', {
         "type": "basic",
+        "iconUrl": "icon.png",  // Make sure you have an icon.png file in the extension directory
         "title": "Download Organized",
         "message": `File saved in ${folderName}!`
     });
 });
+
